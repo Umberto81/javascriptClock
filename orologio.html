@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Orologio Canvas</title>
+</head>
+<body>
+<canvas id="canvas" width="500", height="500", style="border: 1px solid black;"></canvas>
+</body>
+
+<script type="text/javascript">
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+ ctx.strokeStyle = "blue";
+ ctx.lineWidth = 17;
+ ctx.lineCap = "round";
+ ctx.shadowBlur = 15;
+ ctx.shadowColor = "blue";
+
+function degToRad(degree){
+	let factor = Math.PI/180;
+	return degree*factor;
+}
+
+
+function renderTime(){
+	let now = new Date();
+	let today = now.toDateString();
+	let time = now.toLocaleTimeString();
+	let hours = now.getHours();
+	let minutes = now.getMinutes();
+	let seconds = now.getSeconds();
+	let milliseconds = now.getMilliseconds();
+	let newSeconds = seconds + (milliseconds/1000);
+	
+	//bacground
+	ctx.fillStyle = "grey";
+	ctx.fillRect(0,0,500,500);
+	//hours
+    ctx.beginPath();
+		ctx.arc(250,250,200,degToRad(270),degToRad((hours*15)-90));
+		ctx.stroke();
+	//minutes
+	ctx.beginPath();
+		ctx.arc(250,250,170,degToRad(270),degToRad((minutes*6)-90));
+		ctx.stroke();
+		
+		//seconds
+		ctx.beginPath();
+		ctx.arc(250,250,140,degToRad(270),degToRad((newSeconds*6)-90));
+		ctx.stroke();
+		
+	//date
+	ctx.font = "25px Arial bold";
+	ctx.fillStyle = "blue";
+	ctx.fillText(today, 150, 250);
+	
+	//time
+	ctx.font = "25px Arial";
+	ctx.fillStyle = "blue";
+	ctx.fillText(time, 175, 280);
+}
+setInterval(renderTime, 40);
+
+
+</script>
+</html>
